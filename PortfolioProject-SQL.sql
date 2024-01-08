@@ -1,3 +1,4 @@
+-- Exploring the data and columns of interest
 Select location, date, total_cases, new_cases, total_deaths
 From public."CovidDeaths"
 Where continent is not null
