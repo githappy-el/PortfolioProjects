@@ -1,4 +1,3 @@
--- Exploring the data and columns of interest
 Select location, date, total_cases, new_cases, total_deaths
 From public."CovidDeaths"
 Where continent is not null
@@ -21,11 +20,10 @@ Order By 1,2
 
 -- Showing the countries with the highest infection rates compared to population
 
-Select location, population,max(total_cases) as total_cases,max((total_cases/population))*100 as infectionpercentage
+Select location, population,date,max(total_cases) as HighestInfectionCount,max((total_cases/population))*100 as InfectionPercentage
 From public."CovidDeaths"
-Where continent is not null
-Group By location, population
-Order By infectionpercentage desc
+Group By location, population,date
+Order By InfectionPercentage desc
 
 -- Showing countries with the highest total deaths
 
@@ -35,13 +33,6 @@ Where continent is not null
 Group By location 
 Order By total_deaths desc
 
--- Breaking things down by the continent (continent with highest number of deaths)
-
-Select continent, max(total_deaths) as total_deaths 
-From public."CovidDeaths"
-Where continent is not null 
-Group By continent 
-Order By total_deaths desc
 
 -- Global Numbers - Death Percentage 
 
@@ -50,6 +41,15 @@ From public."CovidDeaths"
 Where continent is not null 
 --group by date 
 Order By DeathPercentage desc
+
+-- Global Numbers - TotalDeathCount
+
+Select location, sum(new_cases) as TotalDeathCount
+From public."CovidDeaths"
+Where continent is null
+and location not in ('World','European Union', 'International') -- taken out because they are not included in queries above
+Group By location
+Order By TotalDeathCount desc
 
 -- Looking at total population vs vaccinations using a cte
 
