@@ -44,7 +44,7 @@ Order By DeathPercentage desc
 
 -- Global Numbers - TotalDeathCount
 
-Select location, sum(new_cases) as TotalDeathCount
+Select location, max(total_deaths) as TotalDeathCount
 From public."CovidDeaths"
 Where continent is null
 and location not in ('World','European Union', 'International') -- taken out because they are not included in queries above
